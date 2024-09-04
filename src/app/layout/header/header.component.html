@@ -1,14 +1,14 @@
 <header>
   <nav class="shadow-md">
     <div class="container mx-auto px-6 py-3 flex justify-between items-center">
+      <!-- Main menu -->
       <div class="flex items-center">
-        <img src="logo.ico" alt="" class="h-10 w-auto mr-2"> <!-- Измените h-8 на нужный размер -->
+        <img src="logo.ico" alt="" class="h-10 w-auto mr-2">
         <a href="#" class="text-2xl font-bold">ScriptedSky</a>
       </div>
       <nav class="hidden md:flex space-x-6">
         <a href="#" class="nav-item text-2xl font-bold">Home</a>
         <a href="#" class="nav-item text-2xl font-bold">Books</a>
-        <a href="#" class="nav-item text-2xl font-bold">Contact Us</a>
       </nav>
       <div class="hidden md:flex gap-3 align-middle">
         <a matBadge="5" matBadgeSize="large" class="custom-badge mt-2 mr-2">
@@ -21,26 +21,23 @@
 
       <!-- Mobile Menu Button -->
       <div class="mobile-menu md:hidden flex items-center">
-        <button (click)="toggleMenu()" class="text-gray-800 focus:outline-none">
-          <mat-icon>menu</mat-icon>
+        <a matBadge="5" matBadgeSize="large" class="custom-badge mt-2 mr-2">
+          <mat-icon>shopping_cart</mat-icon>
+        </a>
+        <button (click)="toggleMenu()" class="ml-2">
+          <mat-icon>{{ isOpen ? 'close' : 'menu' }}</mat-icon>
         </button>
       </div>
 
     </div>
 
     <!-- Mobile Menu -->
-    <div [class.hidden]="!isOpen" class="md:hidden">
-      <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:text-gray-600">Home</a>
-        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:text-gray-600">About</a>
-        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:text-gray-600">Store</a>
-        <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-800 hover:text-gray-600">Contact Us</a>
-        <button class="w-full text-left bg-gray-800 text-white px-4 py-2 rounded-md">
-          Buy Book
-        </button>
+    <div [class.hidden]="!isOpen" class="md:hidden container mx-auto px-6 py-3">
+      <div class="flex flex-col items-center space-y-4 px-2 pt-2 pb-3 sm:px-3">
+        <a href="#" class="nav-item text-xl font-bold">Home</a>
+        <a href="#" class="nav-item text-xl font-bold">Books</a>
       </div>
     </div>
 
   </nav>
 </header>
-

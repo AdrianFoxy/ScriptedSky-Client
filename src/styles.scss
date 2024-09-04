@@ -1,7 +1,24 @@
+@use '@angular/material' as mat;
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html {
-  background-image: linear-gradient(135deg, #fce7e7, #f4e3ff, #fdf3e3);
+$customTheme: mat.define-theme();
+
+@include mat.core();
+
+.custom-theme {
+  @include mat.all-component-themes($customTheme);
+
+  // override styles
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background-image: linear-gradient(135deg, #FFFFFE, #FFF4F0, #FFEFE0);
 }

@@ -43,12 +43,12 @@
 }
 
 .nav-item {
-  text-decoration: none; /* Убираем подчеркивание */
-  transition: color 0.3s; /* Плавный переход цвета текста */
+  text-decoration: none;
+  transition: color 0.3s;
 }
 
 .nav-item:hover {
-  color: #a78bfa; /* Цвет текста при наведении */
+  color: #a78bfa;
 }
 
 
