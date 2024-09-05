@@ -1,0 +1,29 @@
+@if (book) {
+  <div class="w-72 bg-white shadow-md rounded-xl duration-500 hover:scale-105 hover:shadow-xl">
+    <a href="#">
+      <img src="{{book.pictureURL}}" alt="Product" class="h-80 w-72 object-contain rounded-t-xl mt-1" />
+      <div class="px-4 py-3 w-72">
+        <span class="text-gray-400 mr-3 uppercase text-xs">
+          <ng-container *ngFor="let author of book.author; let i = index">
+            {{ author.name }}<span *ngIf="i < book.author.length - 1">, </span>
+          </ng-container>
+        </span>
+
+        <p class="text-lg font-bold text-black truncate block capitalize">{{book.title}}</p>
+
+        <div class="flex flex-nowrap overflow-x-auto gap-2 mt-2">
+          <mat-chip *ngFor="let genre of book.genre;">
+            {{ genre.name }}
+          </mat-chip>
+        </div>
+
+        <div class="flex items-center">
+          <p class="text-lg font-semibold text-black cursor-auto my-3">{{book.price}}₴</p>
+          <button class="ml-auto">
+            <mat-icon class="hover:text-amber-600">add_shopping_cart</mat-icon>
+          </button>
+        </div>
+      </div>
+    </a>
+  </div>
+}
