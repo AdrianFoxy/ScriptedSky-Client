@@ -14,11 +14,6 @@ $customTheme: mat.define-theme();
   // override styles
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-}
-
 body {
   background-image: linear-gradient(135deg, #FFFFFE, #FFF4F0, #FFEFE0);
 }
