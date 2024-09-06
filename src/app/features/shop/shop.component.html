@@ -1,17 +1,28 @@
 <div class="flex flex-col gap-3">
   <div class="flex justify-end mt-3">
     <button
-      class="flex items-center rounded-lg border-2 border-black px-5 py-2.5 font-bold transition-colors duration-300 hover:text-accent-color hover:border-accent-color"
+      class="flex items-center rounded-lg border-2 border-black px-5 py-2.5
+            font-bold transition-colors duration-300 hover:text-accent-color
+            hover:border-accent-color"
       (click)="openFiltresDialog()">
       <mat-icon>filter_list</mat-icon>
       Filters
+    </button>
+
+    <button
+      class="ml-2 flex items-center rounded-lg border-2 border-black px-5 py-2.5
+            font-bold transition-colors duration-300 hover:text-accent-color
+            hover:border-accent-color"
+      [matMenuTriggerFor]="sortMenu">
+      <mat-icon>swap_vert</mat-icon>
+      Sort
     </button>
 
   </div>
 
   <div class="w-fit mx-auto grid grid-cols-1
     2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2
-    justify-items-center justify-center gap-y-5 gap-x-10 mb-5">
+    justify-items-center justify-center gap-y-5 gap-x-10 mb-5 mt-2">
 
     @for (book of books; track book.id) {
     <app-book-item [book]="book"></app-book-item>
@@ -19,3 +30,13 @@
 
   </div>
 </div>
+
+<mat-menu #sortMenu="matMenu">
+  <mat-selection-list multiple="false" (selectionChange)="onSortChange($event)">
+    @for (sort of sortOptions; track $index) {
+      <mat-list-option [value]="sort.value" [selected]="selectedSort === sort.value">
+        {{sort.name}}
+      </mat-list-option>
+    }
+  </mat-selection-list>
+</mat-menu>

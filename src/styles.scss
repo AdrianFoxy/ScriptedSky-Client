@@ -34,6 +34,10 @@ $customTheme: mat.define-theme();
 
 }
 
+.container {
+  @apply mx-auto max-w-screen-2xl
+}
+
 :root {
   --accent-color: #5956e9;
   --hover-accent-color: #7472d1;

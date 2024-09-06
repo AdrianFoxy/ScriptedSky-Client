@@ -6,11 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { FilteringDialogComponent } from './filtering-dialog/filtering-dialog.component';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { Genre } from '../../shared/models/genre';
-import { Author } from '../../shared/models/author';
-import { Publisher } from '../../shared/models/publisher';
-import { Language } from '../../shared/models/language';
-import { FormControl } from '@angular/forms';
+import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
+import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 
 @Component({
   selector: 'app-shop',
@@ -18,7 +15,11 @@ import { FormControl } from '@angular/forms';
   imports: [
     BookItemComponent,
     MatButton,
-    MatIcon
+    MatIcon,
+    MatMenu,
+    MatSelectionList,
+    MatListOption,
+    MatMenuTrigger
 ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'
@@ -33,6 +34,13 @@ export class ShopComponent implements OnInit {
   selectedAuthors: string[] = [];
   selectedPublishers: string[] = [];
   selectedLanguages: string[] = [];
+  selectedSort: string = 'name';
+
+  sortOptions = [
+    { name: 'Alphabetical', value: 'name' },
+    { name: 'Price: Low-High', value: 'priceAsc' },
+    { name: 'Price: High-Low', value: 'priceDesc' }
+  ]
 
   ngOnInit(): void {
     this.initializeShop();
@@ -43,10 +51,24 @@ export class ShopComponent implements OnInit {
     this.shopService.getAuthors();
     this.shopService.getPublishers();
     this.shopService.getLanguages();
-    this.shopService.getBooks().subscribe({
+    this.getBooks();
+  }
+
+  getBooks()
+  {
+    this.shopService.getBooks(this.selectedGenres, this.selectedAuthors,
+      this.selectedLanguages, this.selectedLanguages, this.selectedSort).subscribe({
       next: response => this.books = response.data,
       error: error => console.log(error)
     })
+  }
+
+  onSortChange(event: MatSelectionListChange) {
+    const selectedOption = event.options[0];
+    if (selectedOption) {
+      this.selectedSort = selectedOption.value;
+      this.getBooks();
+    }
   }
 
   openFiltresDialog() {
@@ -68,12 +90,7 @@ export class ShopComponent implements OnInit {
           this.selectedAuthors = result.selectedAuthors,
           this.selectedPublishers = result.selectedPublishers,
           this.selectedLanguages = result.selectedPublishers
-
-          this.shopService.getBooks(this.selectedGenres, this.selectedAuthors,
-             this.selectedLanguages, this.selectedLanguages).subscribe({
-              next : response => this.books = response.data,
-              error: error => console.log(error)
-             })
+          this.getBooks();
         }
       }
     });

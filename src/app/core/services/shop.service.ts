@@ -20,7 +20,7 @@ export class ShopService {
   publishers: Publisher[] = [];
   languages: Language[] = [];
 
-  getBooks(genres? : string[], authors? : string[], publishers? : string[], languages?: string[]){
+  getBooks(genres? : string[], authors? : string[], publishers? : string[], languages?: string[], sort?: string){
     let params = new HttpParams();
 
     if (genres && genres.length > 0) {
@@ -37,6 +37,10 @@ export class ShopService {
 
     if (languages && languages.length > 0) {
       params = params.append('LanguageIds', languages.join(','));
+    }
+
+    if (sort) {
+      params = params.append('Sort', sort);
     }
 
     return this.http.get<Pagination<Book>>(this.baseUrl + 'book', {params});
