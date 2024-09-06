@@ -6,6 +6,7 @@ import { Genre } from '../../shared/models/genre';
 import { Author } from '../../shared/models/author';
 import { Publisher } from '../../shared/models/publisher';
 import { Language } from '../../shared/models/language';
+import { ShopParams } from '../../shared/models/shopParams';
 
 @Injectable({
   providedIn: 'root'
@@ -20,31 +21,40 @@ export class ShopService {
   publishers: Publisher[] = [];
   languages: Language[] = [];
 
-  getBooks(genres? : string[], authors? : string[], publishers? : string[], languages?: string[], sort?: string){
+  getBooks(shopParams: ShopParams) {
     let params = new HttpParams();
 
-    if (genres && genres.length > 0) {
-      params = params.append('GenreIds', genres.join(','));
+    if (shopParams.genres.length > 0) {
+      shopParams.genres.forEach(genre => {
+        params = params.append('GenreIds', genre);
+      });
     }
 
-    if (authors && authors.length > 0) {
-      params = params.append('AuthorIds', authors.join(','));
+    if (shopParams.authors.length > 0) {
+      shopParams.authors.forEach(author => {
+        params = params.append('AuthorIds', author);
+      });
     }
 
-    if (publishers && publishers.length > 0) {
-      params = params.append('PublisherIds', publishers.join(','));
+    if (shopParams.publishers.length > 0) {
+      shopParams.publishers.forEach(publisher => {
+        params = params.append('PublisherIds', publisher);
+      });
     }
 
-    if (languages && languages.length > 0) {
-      params = params.append('LanguageIds', languages.join(','));
+    if (shopParams.languages.length > 0) {
+      shopParams.languages.forEach(language => {
+        params = params.append('LanguageIds', language);
+      });
     }
 
-    if (sort) {
-      params = params.append('Sort', sort);
+    if (shopParams.sort) {
+      params = params.append('Sort', shopParams.sort);
     }
 
-    return this.http.get<Pagination<Book>>(this.baseUrl + 'book', {params});
+    return this.http.get<Pagination<Book>>(this.baseUrl + 'book', { params });
   }
+
 
   getGenres() {
     if (this.genres.length > 0) return;

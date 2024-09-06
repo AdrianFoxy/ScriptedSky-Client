@@ -8,6 +8,7 @@ import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
+import { ShopParams } from '../../shared/models/shopParams';
 
 @Component({
   selector: 'app-shop',
@@ -30,17 +31,13 @@ export class ShopComponent implements OnInit {
   private dialogService = inject(MatDialog)
   books: Book[] = [];
 
-  selectedGenres: string[] = [];
-  selectedAuthors: string[] = [];
-  selectedPublishers: string[] = [];
-  selectedLanguages: string[] = [];
-  selectedSort: string = 'name';
-
   sortOptions = [
     { name: 'Alphabetical', value: 'name' },
     { name: 'Price: Low-High', value: 'priceAsc' },
     { name: 'Price: High-Low', value: 'priceDesc' }
   ]
+
+  shopParams = new ShopParams();
 
   ngOnInit(): void {
     this.initializeShop();
@@ -56,8 +53,7 @@ export class ShopComponent implements OnInit {
 
   getBooks()
   {
-    this.shopService.getBooks(this.selectedGenres, this.selectedAuthors,
-      this.selectedLanguages, this.selectedLanguages, this.selectedSort).subscribe({
+    this.shopService.getBooks(this.shopParams).subscribe({
       next: response => this.books = response.data,
       error: error => console.log(error)
     })
@@ -66,7 +62,7 @@ export class ShopComponent implements OnInit {
   onSortChange(event: MatSelectionListChange) {
     const selectedOption = event.options[0];
     if (selectedOption) {
-      this.selectedSort = selectedOption.value;
+      this.shopParams.sort = selectedOption.value;
       this.getBooks();
     }
   }
@@ -75,10 +71,10 @@ export class ShopComponent implements OnInit {
     const dialogRef = this.dialogService.open(FilteringDialogComponent, {
       width: '500px',
       data: {
-        selectedGenres: this.selectedGenres,
-        selectedAuthors: this.selectedAuthors,
-        selectedPublishers: this.selectedPublishers,
-        selectedLanguages: this.selectedLanguages
+        selectedGenres: this.shopParams.genres,
+        selectedAuthors: this.shopParams.authors,
+        selectedPublishers: this.shopParams.publishers,
+        selectedLanguages: this.shopParams.languages
       }
     });
 
@@ -86,10 +82,10 @@ export class ShopComponent implements OnInit {
       next: result => {
         if (result) {
           console.log(result);
-          this.selectedGenres = result.selectedGenres,
-          this.selectedAuthors = result.selectedAuthors,
-          this.selectedPublishers = result.selectedPublishers,
-          this.selectedLanguages = result.selectedPublishers
+          this.shopParams.genres = result.selectedGenres,
+          this.shopParams.authors = result.selectedAuthors,
+          this.shopParams.publishers = result.selectedPublishers,
+          this.shopParams.languages = result.selectedLanguages
           this.getBooks();
         }
       }
