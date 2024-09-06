@@ -1,43 +1,43 @@
-<header>
-  <nav class="shadow-md">
-    <div class="container mx-auto px-6 py-3 flex justify-between items-center">
-      <!-- Main menu -->
-      <div class="flex items-center">
-        <img src="logo.ico" alt="" class="h-10 w-auto mr-2">
-        <a href="#" class="text-2xl font-bold">ScriptedSky</a>
-      </div>
-      <nav class="hidden md:flex space-x-6">
-        <a href="#" class="nav-item text-2xl font-bold">Home</a>
-        <a href="#" class="nav-item text-2xl font-bold">Books</a>
-      </nav>
-      <div class="hidden md:flex gap-3 align-middle">
-        <a matBadge="5" matBadgeSize="large" class="custom-badge mt-2 mr-2">
-          <mat-icon>shopping_cart</mat-icon>
-        </a>
+<header class="border-b shadow-md p-3 w-full">
 
-        <button class="header_button">Login</button>
-        <button class="header_button">Register</button>
-      </div>
+  <div class="flex align-middle items-center justify-between max-w-screen-2xl mx-auto">
 
-      <!-- Mobile Menu Button -->
-      <div class="mobile-menu md:hidden flex items-center">
-        <a matBadge="5" matBadgeSize="large" class="custom-badge mt-2 mr-2">
-          <mat-icon>shopping_cart</mat-icon>
-        </a>
-        <button (click)="toggleMenu()" class="ml-2">
-          <mat-icon>{{ isOpen ? 'close' : 'menu' }}</mat-icon>
-        </button>
-      </div>
 
+    <div class="flex items-center">
+      <img src="logo.ico" alt="logo" class="h-10 w-auto mr-2">
+      <a href="#" class="text-2xl font-bold">ScriptedSky</a>
     </div>
 
-    <!-- Mobile Menu -->
-    <div [class.hidden]="!isOpen" class="md:hidden container mx-auto px-6 py-3">
-      <div class="flex flex-col items-center space-y-4 px-2 pt-2 pb-3 sm:px-3">
-        <a href="#" class="nav-item text-xl font-bold">Home</a>
-        <a href="#" class="nav-item text-xl font-bold">Books</a>
-      </div>
+    <nav class="hidden md:flex space-x-6">
+      <a href="#" class="nav-item text-2xl font-bold">Home</a>
+      <a href="#" class="nav-item text-2xl font-bold">Books</a>
+    </nav>
+
+    <div class="hidden md:flex gap-3 align-middle">
+      <a matBadge="5" matBadgeSize="large" class="custom-badge mt-2 mr-2">
+        <mat-icon>shopping_cart</mat-icon>
+      </a>
+      <button class="header_button">Login</button>
+      <button class="header_button">Register</button>
     </div>
 
-  </nav>
+    <!-- Mobile Menu Button -->
+    <div class="mobile-menu md:hidden flex items-center">
+      <a matBadge="5" matBadgeSize="large" class="custom-badge mt-2 mr-2">
+        <mat-icon>shopping_cart</mat-icon>
+      </a>
+      <button (click)="toggleMenu()" class="ml-2">
+        <mat-icon>{{ isOpen ? 'close' : 'menu' }}</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div [class.hidden]="!isOpen" class="md:hidden mx-auto px-6">
+    <div class="flex flex-col items-center space-y-4 px-2 pt-2 pb-3 sm:px-3">
+      <a href="#" class="nav-item text-xl font-bold">Home</a>
+      <a href="#" class="nav-item text-xl font-bold">Books</a>
+    </div>
+  </div>
+
 </header>

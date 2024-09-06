@@ -1,0 +1,61 @@
+<div>
+  <h3 class="text-3xl text-center pt-6 mb-3">Filters</h3>
+  <mat-divider></mat-divider>
+
+  <div class="p-4 space-y-4">
+
+    <div class="w-full">
+      <mat-form-field class="w-full">
+        <mat-label>Genres</mat-label>
+        <mat-select [(ngModel)]="selectedGenres" multiple>
+          @for (genre of shopService.genres; track genre.id) {
+            <mat-option [value]="genre.id">{{genre.name}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="w-full">
+      <mat-form-field class="w-full">
+        <mat-label>Autors</mat-label>
+        <mat-select [(ngModel)]="selectedAuthors" multiple>
+          @for (author of shopService.authors; track author.id) {
+            <mat-option [value]="author.id">{{author.name}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="w-full">
+      <mat-form-field class="w-full">
+        <mat-label>Publishers</mat-label>
+        <mat-select [(ngModel)]="selectedPublishers" multiple>
+          @for (publisher of shopService.publishers; track publisher.id) {
+            <mat-option [value]="publisher.id">{{publisher.name}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="w-full">
+      <mat-form-field class="w-full">
+        <mat-label>Languages</mat-label>
+        <mat-select [(ngModel)]="selectedLanguages" multiple>
+          @for (language of shopService.languages; track language.id) {
+            <mat-option [value]="language.id">{{language.name}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+  </div>
+
+  <div class="flex justify-end p-4">
+    <button
+      class="text-white bg-accent-color hover:bg-hover-accent-color border-none py-2 px-4 text-center text-lg cursor-pointer rounded-lg"
+      (click)="applyFilters()">
+      Apply Filters
+    </button>
+  </div>
+
+</div>

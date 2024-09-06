@@ -1,9 +1,21 @@
-<div class="w-fit mx-auto grid grid-cols-1
-  2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2
-  justify-items-center justify-center gap-y-5 gap-x-10 mt-10 mb-5">
+<div class="flex flex-col gap-3">
+  <div class="flex justify-end mt-3">
+    <button
+      class="flex items-center rounded-lg border-2 border-black px-5 py-2.5 font-bold transition-colors duration-300 hover:text-accent-color hover:border-accent-color"
+      (click)="openFiltresDialog()">
+      <mat-icon>filter_list</mat-icon>
+      Filters
+    </button>
 
-  @for (book of books; track book.id) {
+  </div>
+
+  <div class="w-fit mx-auto grid grid-cols-1
+    2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2
+    justify-items-center justify-center gap-y-5 gap-x-10 mb-5">
+
+    @for (book of books; track book.id) {
     <app-book-item [book]="book"></app-book-item>
-  }
+    }
 
+  </div>
 </div>

@@ -12,6 +12,31 @@ $customTheme: mat.define-theme();
   @include mat.all-component-themes($customTheme);
 
   // override styles
+  // .mat-mdc-select-arrow svg {
+  //   fill: black !important;
+  // }
+
+  .mat-primary .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
+  .mat-primary .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
+    background: black;
+  }
+
+  --mdc-filled-text-field-container-color: #f5f5f5;
+  --mdc-filled-text-field-disabled-container-color: #464646;
+  --mdc-filled-text-field-label-text-color: #6c6c6c;
+
+  /* label color text */
+  --mdc-filled-text-field-focus-label-text-color: #1d1d1d;
+
+  /* Line under active in select text */
+  --mdc-filled-text-field-focus-active-indicator-color: var(--accent-color)
+  --mdc-filled-button-container-color: var(--accent-color)
+
+}
+
+:root {
+  --accent-color: #5956e9;
+  --hover-accent-color: #7472d1;
 }
 
 body {

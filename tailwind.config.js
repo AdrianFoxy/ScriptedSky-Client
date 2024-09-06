@@ -4,7 +4,12 @@ module.exports = {
     "./src/**/*.{html,ts}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'accent-color': 'var(--accent-color)',
+        'hover-accent-color': 'var(--hover-accent-color)'
+      }
+    },
   },
   plugins: [],
 }
