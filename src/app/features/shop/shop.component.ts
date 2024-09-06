@@ -9,6 +9,9 @@ import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
 import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 import { ShopParams } from '../../shared/models/shopParams';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { Pagination } from '../../shared/models/pagination';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-shop',
@@ -20,7 +23,9 @@ import { ShopParams } from '../../shared/models/shopParams';
     MatMenu,
     MatSelectionList,
     MatListOption,
-    MatMenuTrigger
+    MatMenuTrigger,
+    MatPaginator,
+    FormsModule
 ],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'
@@ -29,7 +34,7 @@ export class ShopComponent implements OnInit {
 
   private shopService = inject(ShopService)
   private dialogService = inject(MatDialog)
-  books: Book[] = [];
+  books?: Pagination<Book>;
 
   sortOptions = [
     { name: 'Alphabetical', value: 'name' },
@@ -38,6 +43,7 @@ export class ShopComponent implements OnInit {
   ]
 
   shopParams = new ShopParams();
+  pageSizeOptions = [5,10,15,20]
 
   ngOnInit(): void {
     this.initializeShop();
@@ -54,15 +60,27 @@ export class ShopComponent implements OnInit {
   getBooks()
   {
     this.shopService.getBooks(this.shopParams).subscribe({
-      next: response => this.books = response.data,
+      next: response => this.books = response,
       error: error => console.log(error)
     })
+  }
+
+  onSearchChange() {
+    this.shopParams.PageNumber = 1;
+    this.getBooks();
+  }
+
+  handlePageEvent(event: PageEvent) {
+    this.shopParams.PageNumber = event.pageIndex + 1;
+    this.shopParams.PageSize = event.pageSize;
+    this.getBooks();
   }
 
   onSortChange(event: MatSelectionListChange) {
     const selectedOption = event.options[0];
     if (selectedOption) {
       this.shopParams.sort = selectedOption.value;
+      this.shopParams.PageNumber = 1;
       this.getBooks();
     }
   }
@@ -86,6 +104,7 @@ export class ShopComponent implements OnInit {
           this.shopParams.authors = result.selectedAuthors,
           this.shopParams.publishers = result.selectedPublishers,
           this.shopParams.languages = result.selectedLanguages
+          this.shopParams.PageNumber = 1;
           this.getBooks();
         }
       }

@@ -52,6 +52,13 @@ export class ShopService {
       params = params.append('Sort', shopParams.sort);
     }
 
+    if (shopParams.search) {
+      params = params.append('Search', shopParams.search);
+    }
+
+    params = params.append('pageSize', shopParams.PageSize);
+    params = params.append('pageIndex', shopParams.PageNumber);
+
     return this.http.get<Pagination<Book>>(this.baseUrl + 'book', { params });
   }
 
