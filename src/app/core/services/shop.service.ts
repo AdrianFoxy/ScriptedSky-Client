@@ -62,6 +62,9 @@ export class ShopService {
     return this.http.get<Pagination<Book>>(this.baseUrl + 'book', { params });
   }
 
+  getBook(id: number){
+    return this.http.get<Book>(this.baseUrl + 'book/' + id)
+  }
 
   getGenres() {
     if (this.genres.length > 0) return;

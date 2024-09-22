@@ -3,6 +3,7 @@ import { Book } from '../../../shared/models/book';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-book-item',
@@ -10,7 +11,8 @@ import { MatChipsModule } from '@angular/material/chips';
   imports: [
     CommonModule,
     MatIcon,
-    MatChipsModule
+    MatChipsModule,
+    RouterLink
   ],
   templateUrl: './book-item.component.html',
   styleUrl: './book-item.component.scss'

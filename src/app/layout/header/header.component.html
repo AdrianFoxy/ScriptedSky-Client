@@ -2,14 +2,16 @@
 
   <div class="container flex align-middle items-center justify-between p-3">
 
-    <div class="flex items-center">
+    <div routerLink="/" class="flex items-center cursor: cursor-pointer" >
       <img src="logo.ico" alt="logo" class="h-10 w-auto mr-2">
-      <a href="#" class="text-2xl font-bold">ScriptedSky</a>
+      <a  class="text-2xl font-bold">ScriptedSky</a>
     </div>
 
     <nav class="hidden md:flex space-x-6">
-      <a href="#" class="nav-item text-2xl font-bold">Home</a>
-      <a href="#" class="nav-item text-2xl font-bold">Books</a>
+      <a routerLink="/"
+         [routerLinkActiveOptions]="{exact: true}"
+         routerLinkActive="active" class="nav-item text-2xl font-bold">Home</a>
+      <a routerLink="/shop" routerLinkActive="active" class="nav-item text-2xl font-bold">Books</a>
     </nav>
 
     <div class="hidden md:flex gap-3 align-middle">
@@ -34,8 +36,8 @@
   <!-- Mobile Menu -->
   <div [class.hidden]="!isOpen" class="md:hidden mx-auto px-6">
     <div class="flex flex-col items-center space-y-4 px-2 pt-2 pb-3 sm:px-3">
-      <a href="#" class="nav-item text-xl font-bold">Home</a>
-      <a href="#" class="nav-item text-xl font-bold">Books</a>
+      <a routerLink="/" class="nav-item text-xl font-bold">Home</a>
+      <a routerLink="/shop" class="nav-item text-xl font-bold">Books</a>
     </div>
   </div>
 
