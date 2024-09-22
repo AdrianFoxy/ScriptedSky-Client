@@ -1,33 +1,57 @@
-<header class="border-b shadow-md w-full">
+<header class="w-full">
 
-  <div class="container flex align-middle items-center justify-between p-3">
+  <div class="container flex align-c justify-between p-3">
 
-    <div routerLink="/" class="flex items-center cursor: cursor-pointer" >
-      <img src="logo.ico" alt="logo" class="h-10 w-auto mr-2">
-      <a  class="text-2xl font-bold">ScriptedSky</a>
+    <div class="header-nav-inner-block">
+      <div routerLink="/" class="flex items-center cursor: cursor-pointer" style="color: #1b3764;">
+        <img src="logo.ico" alt="logo" class="h-10 w-auto mr-2">
+        <a  class="text-2xl">ScriptedSky</a>
+      </div>
+
+      <nav class="hidden md:flex">
+        <a routerLink="/"
+           [routerLinkActiveOptions]="{exact: true}"
+           routerLinkActive="active" class="nav-item">
+           Home
+        </a>
+        <a routerLink="/shop"
+           routerLinkActive="active"
+           class="nav-item">
+           Books
+        </a>
+        <a class="nav-item">
+          Blog
+        </a>
+        <a class="nav-item">
+          Contact
+        </a>
+      </nav>
     </div>
 
-    <nav class="hidden md:flex space-x-6">
-      <a routerLink="/"
-         [routerLinkActiveOptions]="{exact: true}"
-         routerLinkActive="active" class="nav-item text-2xl font-bold">Home</a>
-      <a routerLink="/shop" routerLinkActive="active" class="nav-item text-2xl font-bold">Books</a>
-    </nav>
+    <div class="hidden md:flex  align-middle">
 
-    <div class="hidden md:flex gap-3 align-middle">
-      <a matBadge="5" matBadgeSize="large" class="custom-badge mt-2 mr-2">
-        <mat-icon>shopping_cart</mat-icon>
+      <a class="custom-badge mt-2">
+        <mat-icon>person_outline</mat-icon>
       </a>
-      <button class="header_button">Login</button>
-      <button class="header_button">Register</button>
+      <div class="divider"></div>
+      <a matBadge="5" matBadgeSize="large" class="custom-badge mt-2">
+        <img src="shopping-cart.png" alt="Cart" class="w-7 h-7" />
+      </a>
+
     </div>
 
     <!-- Mobile Menu Button -->
     <div class="mobile-menu md:hidden flex items-center">
-      <a matBadge="5" matBadgeSize="large" class="custom-badge mt-2 mr-2">
-        <mat-icon>shopping_cart</mat-icon>
+
+      <a class="custom-badge mt-2">
+        <mat-icon>person_outline</mat-icon>
       </a>
-      <button (click)="toggleMenu()" class="ml-2">
+      <div class="divider"></div>
+      <a matBadge="5" matBadgeSize="large" class="custom-badge mt-2">
+        <img src="shopping-cart.png" alt="Cart" class="w-7 h-7" />
+      </a>
+
+      <button (click)="toggleMenu()" class="ml-2 menu-btn">
         <mat-icon>{{ isOpen ? 'close' : 'menu' }}</mat-icon>
       </button>
     </div>

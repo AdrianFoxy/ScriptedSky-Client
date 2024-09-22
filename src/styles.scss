@@ -11,26 +11,27 @@ $customTheme: mat.define-theme();
 .custom-theme {
   @include mat.all-component-themes($customTheme);
 
-  // override styles
-  // .mat-mdc-select-arrow svg {
-  //   fill: black !important;
-  // }
+  .mat-mdc-select-arrow svg {
+    fill: black;
+  }
 
   .mat-primary .mat-pseudo-checkbox-checked.mat-pseudo-checkbox-full,
   .mat-primary .mat-pseudo-checkbox-indeterminate.mat-pseudo-checkbox-full {
-    background: black;
+    background: var(--primary-color)
   }
 
   --mdc-filled-text-field-container-color: #f5f5f5;
   --mdc-filled-text-field-disabled-container-color: #464646;
   --mdc-filled-text-field-label-text-color: #6c6c6c;
 
+  --mat-select-panel-background-color: white;
+
   /* label color text */
   --mdc-filled-text-field-focus-label-text-color: #1d1d1d;
 
   /* Line under active in select text */
-  --mdc-filled-text-field-focus-active-indicator-color: var(--accent-color)
-  --mdc-filled-button-container-color: var(--accent-color)
+  --mdc-filled-text-field-focus-active-indicator-color: var(--primary-color)
+  --mdc-filled-button-container-color: var(--primary-color)
 
 }
 
@@ -39,10 +40,14 @@ $customTheme: mat.define-theme();
 }
 
 :root {
-  --accent-color: #5956e9;
-  --hover-accent-color: #7472d1;
+  --secondary-color: #01001a;
+  --primary-color: #0160ff;
+  --white-color: white;
+  --title-color: #1b3764;
 }
 
 body {
-  background-image: linear-gradient(135deg, #FFFFFE, #FFF4F0, #FFEFE0);
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  background-color: rgba(240,245,249,255);
 }

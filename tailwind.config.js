@@ -6,8 +6,10 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        'accent-color': 'var(--accent-color)',
-        'hover-accent-color': 'var(--hover-accent-color)'
+        'secondary': '#01001a',
+        'primary': '#0160ff',
+        'white': '#ffffff',
+        'title': '#1b3764'
       }
     },
   },
