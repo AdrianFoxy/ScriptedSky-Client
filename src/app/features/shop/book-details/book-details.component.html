@@ -1,4 +1,69 @@
-@if(book){
-  <h1 class="text-2xl">{{book.title}}</h1>
+@if(book) {
+<div class="container gap-3">
+
+  <div class="grid grid-cols-6 gap-3 items-start
+    bg-white shadow-lg rounded-lg py-10 p-6 lg:p-8">
+    <div class="bg-gray-100 col-span-6 lg:col-span-2 h-[380px] smx:h-[480px] lg:h-auto flex justify-center rounded-sm ">
+      <img src="{{book.pictureURL}}" alt="" class="w-[240px] h-[380px] smx:w-[320px] smx:h-[480px] p-4
+        transform transition-transform duration-300 hover:scale-105" />
+    </div>
+    <div class="col-span-6 lg:col-span-4 h-auto lg:pl-8">
+
+      <!-- Stock Status -->
+      <div *ngIf="book.amount > 0; then inStock; else outOfStock"></div>
+
+      <!-- Book Title and Rating -->
+      <div class="flex items-center">
+        <h1 class="text-2xl font-semibold mt-4">{{book.title}}</h1>
+        <span class="text-yellow-400 ml-2">{{book.rating}} ★</span>
+      </div>
+
+      <!-- Author -->
+      <p class="text-sm text-gray-500 mt-2">
+        By, <span *ngFor="let author of book.author; let last = last" class="text-blue-500">
+          {{author.enName}}{{ last ? '' : ', ' }}</span>
+      </p>
+
+      <!-- Price -->
+      <div class="mt-2">
+        <span class="text-2xl font-bold text-gray-800">{{book.price}}₴</span>
+      </div>
+
+      <!-- Add to Cart -->
+      <div class="flex mt-3 mb-0.5">
+        <mat-form-field appearance="outline" class="mr-2 w-20">
+          <input matInput type="number" min="1" value="1" />
+        </mat-form-field>
+
+        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 h-[56px]">
+          Add to Cart
+        </button>
+      </div>
+
+      <!-- Book Details -->
+      <div class="text-gray-600">
+        <p><strong>Dimension: </strong>{{book.sizeFormat}}</p>
+        <p><strong>Publisher: </strong>{{book.publisher.name}}</p>
+        <p>
+          <strong>Genres: </strong>
+          <span *ngFor="let genre of book.genre; let last = last">{{genre.enName}}{{ last ? '' : ', ' }}</span>
+        </p>
+        <p><strong>Language: </strong> {{book.language.name}}</p>
+        <p><strong>Page Number: </strong> {{book.pageNumber}}</p>
+        <p><strong>Weight: </strong> {{book.weight}}</p>
+        <p><strong>ISBN: </strong> {{book.isbn}}</p>
+        <p><strong>Description: </strong> {{book.description}}</p>
+      </div>
+    </div>
+  </div>
+
+</div>
 }
 
+<ng-template #inStock>
+  <span class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm font-medium">✔ In stock</span>
+</ng-template>
+
+<ng-template #outOfStock>
+  <span class="bg-red-600 text-white px-3 py-1 rounded-full text-sm font-medium">✘ Out of stock</span>
+</ng-template>

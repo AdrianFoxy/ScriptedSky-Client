@@ -32,6 +32,14 @@ $customTheme: mat.define-theme();
     background-color: #6c9df3;
   }
 
+  .mdc-notched-outline__notch {
+    border-right: none !important;
+  }
+
+  .mdc-text-field--outlined:not(.mdc-text-field--disabled).mdc-text-field--focused .mdc-floating-label{
+    color: var(--primary-color);
+  }
+
   --mdc-filled-text-field-container-color: #f5f5f5;
   --mdc-filled-text-field-disabled-container-color: #464646;
   --mdc-filled-text-field-label-text-color: #6c6c6c;
