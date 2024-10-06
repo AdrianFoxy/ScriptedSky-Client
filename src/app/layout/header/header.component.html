@@ -38,7 +38,11 @@
         <mat-icon>person_outline</mat-icon>
       </a>
       <div class="divider"></div>
-      <a matBadge="5" matBadgeSize="large" class="custom-badge mt-2">
+      <a routerLink="/cart"
+         routerLinkActive="active"
+         matBadge="{{cartService.itemCount() }}"
+         matBadgeSize="large"
+         class="custom-badge mt-2">
         <img src="shopping-cart.png" alt="Cart" class="w-7 h-7" />
       </a>
 

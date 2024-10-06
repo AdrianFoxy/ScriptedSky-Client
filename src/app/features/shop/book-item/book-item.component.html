@@ -18,7 +18,7 @@
 
       <div class="flex items-center">
         <p class="text-lg font-semibold text-black cursor-auto my-3">{{book.price}}₴</p>
-        <button class="ml-auto">
+        <button class="ml-auto" (click)="cartService.addItemToCart(book)">
           <mat-icon class="hover:text-primary">add_shopping_cart</mat-icon>
         </button>
       </div>

@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { Book } from '../../../shared/models/book';
 import { CommonModule } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { RouterLink } from '@angular/router';
+import { CartService } from '../../../core/services/cart.service';
 
 @Component({
   selector: 'app-book-item',
@@ -19,4 +20,5 @@ import { RouterLink } from '@angular/router';
 })
 export class BookItemComponent {
   @Input() book?: Book;
+  cartService = inject(CartService);
 }
