@@ -16,11 +16,6 @@ export class ShopService {
   baseUrl = 'https://localhost:7217/api/'
   private http = inject(HttpClient)
 
-  genres: Genre[] = [];
-  authors: Author[] = [];
-  publishers: Publisher[] = [];
-  languages: Language[] = [];
-
   getBooks(shopParams: ShopParams) {
     let params = new HttpParams();
 
@@ -67,31 +62,19 @@ export class ShopService {
   }
 
   getGenres() {
-    if (this.genres.length > 0) return;
-    return this.http.get<Genre[]>(this.baseUrl + 'filtering/genre').subscribe({
-      next: response => this.genres = response
-    })
+    return this.http.get<Genre[]>(this.baseUrl + 'filtering/genre');
   }
 
   getAuthors() {
-    if (this.authors.length > 0) return;
-    return this.http.get<Author[]>(this.baseUrl + 'filtering/author').subscribe({
-      next: response => this.authors = response
-    })
+    return this.http.get<Author[]>(this.baseUrl + 'filtering/author')
   }
 
   getPublishers() {
-    if (this.publishers.length > 0) return;
-    return this.http.get<Publisher[]>(this.baseUrl + 'filtering/publisher').subscribe({
-      next: response => this.publishers = response
-    })
+    return this.http.get<Publisher[]>(this.baseUrl + 'filtering/publisher')
   }
 
   getLanguages() {
-    if (this.languages.length > 0) return;
-    return this.http.get<Language[]>(this.baseUrl + 'Filtering/language').subscribe({
-      next: response => this.languages = response
-    })
+    return this.http.get<Language[]>(this.baseUrl + 'Filtering/language')
   }
 
 }

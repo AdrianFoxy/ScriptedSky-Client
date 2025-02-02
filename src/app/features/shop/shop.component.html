@@ -1,65 +1,188 @@
 @if (books) {
 
-  <div class="container flex flex-col gap-3">
-    <hr>
+<div class="container flex flex-col gap-3">
+  <main class="container flex flex-col gap-3">
+    <div class="flex items-center border-b justify-between pb-1 w-full">
 
-    <div class="flex flex-wrap">
-      <div class="grow p-3 w-full sm:w-auto">
-        <form #searchForm="ngForm" (ngSubmit)="onSearchChange()" class="relative flex">
-          <input type="search" class="block w-full p-3 text-sm text-gray-900 border border-gray-300 rounded-lg"
-            placeholder="Search" name="search" [(ngModel)]="shopParams.search" />
-          <button mat-icon-button type="submit" class="absolute inset-y-0 right-8 top-2 flex items-center pl-3">
-            <mat-icon>search</mat-icon>
-          </button>
-        </form>
+      <div class="all-product-subtitle text-4xl font-extrabold text-gray-900 w-full lg:w-1/5 hidden lg:block">
+        Catalog Books
       </div>
 
-      <div class="flex-none w-full sm:w-60">
-        <div class="flex p-3">
-          <button class="flex items-center justify-center w-full sm:w-1/2 rounded-lg border-2 border-black px-5 py-2.5
-                font-bold transition-colors duration-300 hover:text-primary
-                hover:border-primary
-                " (click)="openFiltresDialog()">
-            <mat-icon>filter_list</mat-icon>
-            Filters
+      <!-- Search and Btns -->
+      <div class="flex items-center justify-between w-full lg:w-4/5 px-4">
+        <div class="relative w-full">
+          <form #searchForm="ngForm" (ngSubmit)="onSearchChange()" class="relative flex">
+            <svg class="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-gray-400" viewBox="0 0 20 20"
+              fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd"
+                d="M8 4a4 4 0 1 1 2.83 6.83l4.58 4.59a1 1 0 0 1-1.42 1.42l-4.59-4.58A4 4 0 1 1 8 4Zm0 2a2 2 0 0 0 0 4 2 2 0 0 0 0-4Z"
+                clip-rule="evenodd" />
+            </svg>
+            <input type="search" class="pl-10 pr-3 py-2 border border-gray-300 rounded-lg w-full text-sm text-gray-900"
+              placeholder="Search" name="search" [(ngModel)]="shopParams.search" />
+          </form>
+        </div>
+
+        <div class="flex relative px-2">
+          <button id="sortButton" (click)="toggleDropdown()" class="mr-2 flex hover:text-gray-900">
+            Sort
+            <svg class="ml-1 size-5 shrink-0 text-gray-400 group-hover:text-gray-500" viewBox="0 0 20 20"
+              fill="currentColor" aria-hidden="true" data-slot="icon">
+              <path fill-rule="evenodd"
+                d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"
+                clip-rule="evenodd" />
+            </svg>
           </button>
 
-          <button class="flex items-center justify-center w-full sm:w-1/2 rounded-lg border-2 border-black px-5 py-2.5
-                font-bold transition-colors duration-300 hover:text-primary
-                hover:border-primary
-                ml-1" [matMenuTriggerFor]="sortMenu">
-            <mat-icon>swap_vert</mat-icon>
-            Sort
+          <!-- Dropdown list -->
+          <div *ngIf="isOpen" id="dropdown"
+            class="origin-top-right absolute right-0 mt-10 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-50">
+            <div class="py-1">
+              <a *ngFor="let sort of sortOptions" (click)="onSortChange(sort.value)"
+                class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
+                {{sort.name}}
+              </a>
+            </div>
+          </div>
+
+          <button class="hover:text-gray-500 lg:hidden" (click)="toggleFilters()">
+            <svg class="size-5" aria-hidden="true" viewBox="0 0 20 20" fill="currentColor" data-slot="icon">
+              <path fill-rule="evenodd"
+                d="M2.628 1.601C5.028 1.206 7.49 1 10 1s4.973.206 7.372.601a.75.75 0 0 1 .628.74v2.288a2.25 2.25 0 0 1-.659 1.59l-4.682 4.683a2.25 2.25 0 0 0-.659 1.59v3.037c0 .684-.31 1.33-.844 1.757l-1.937 1.55A.75.75 0 0 1 8 18.25v-5.757a2.25 2.25 0 0 0-.659-1.591L2.659 6.22A2.25 2.25 0 0 1 2 4.629V2.34a.75.75 0 0 1 .628-.74Z"
+                clip-rule="evenodd" />
+            </svg>
           </button>
         </div>
       </div>
-
     </div>
 
-    <div class="w-fit mx-auto grid grid-cols-1
-      2xl:grid-cols-5 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 xs:grid-cols-2
-      justify-items-center justify-center gap-y-5 gap-x-10 mb-5 p-6">
+    <!-- Filters and content -->
+    <section class="pb-24">
+      <div class="grid grid-cols-1 lg:grid-cols-5">
+        <!-- Filters -->
+        <div class="hidden lg:block lg:col-span-1">
+          <div class="flex items-center justify-between pb-2 p-2">
+            <h2>Filters</h2>
+            <button (click)="resetFilters()" class=" hover:text-gray-600">
+              <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+                viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M6 18 17.94 6M18 18 6.06 6" />
+              </svg>
+            </button>
+          </div>
 
-      @for (book of books.data; track book.id) {
-      <app-book-item [book]="book"></app-book-item>
-      }
+          <div class="space-y-2">
 
-    </div>
+            <app-filter *ngIf="genres.length > 0" filterName="Genres" [filterOptions]="genres"
+              [selectedIds]="selectedIdGenres" (selectionChange)="onSelectionChange($event, 'selectedIdGenres')">
+            </app-filter>
 
-    <mat-paginator class="bg-transparent flex justify-center" (page)="handlePageEvent($event)" [length]="books.count"
-      [pageSize]="shopParams.PageSize" [showFirstLastButtons]="true" [pageSizeOptions]="pageSizeOptions"
-      [pageIndex]="shopParams.PageNumber - 1" aria-label="Select page">
-    </mat-paginator>
+            <app-filter *ngIf="authors.length > 0" filterName="Authors" [filterOptions]="authors"
+              [selectedIds]="selectedIdAuthors" (selectionChange)="onSelectionChange($event, 'selectedIdAuthors')">
+            </app-filter>
 
+            <app-filter *ngIf="publishers.length > 0" filterName="Publishers" [filterOptions]="publishers"
+              [selectedIds]="selectedIdPublishers"
+              (selectionChange)="onSelectionChange($event, 'selectedIdPublishers')">
+            </app-filter>
+
+            <app-filter *ngIf="languages.length > 0" filterName="Languages" [filterOptions]="languages"
+              [selectedIds]="selectedIdLanguages" (selectionChange)="onSelectionChange($event, 'selectedIdLanguages')">
+            </app-filter>
+
+            <!-- Filtreing Btns -->
+            <div class="flex">
+              <button (click)="applyFilters()" class="btn btn-primary w-full rounded-sm bg-gray-100 hover:bg-gray-200 flex items-center justify-center space-x-2">
+                Apply Filters
+                <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11.917 9.724 16.5 19 7.5"/>
+                </svg>  
+              </button>              
+            </div>            
+
+          </div>
+
+        </div>
+
+        <!-- Content -->
+        <div class="lg:col-span-4">
+          <div class="lg:col-span-3">
+            <!-- Your content -->
+            <div class="w-fit mx-auto grid grid-cols-1
+               2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 xs:grid-cols-2
+               justify-items-center justify-center gap-y-5 gap-x-10 mb-5 p-6">
+
+              @for (book of books.data; track book.id) {
+              <app-book-item [book]="book"></app-book-item>
+              }
+
+            </div>
+            <mat-paginator class="bg-transparent flex justify-center" (page)="handlePageEvent($event)"
+              [length]="books.count" [pageSize]="shopParams.PageSize" [showFirstLastButtons]="true"
+              [pageSizeOptions]="pageSizeOptions" [pageIndex]="shopParams.PageNumber - 1" aria-label="Select page">
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+</div>
+
+<!-- Overlay -->
+<div class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40" *ngIf="isFiltersVisible" (click)="toggleFilters()">
+</div>
+
+<!-- Mobile Filtering Sidebar -->
+<div class="lg:hidden fixed inset-y-0 left-0 w-64 bg-white z-50 transform transition-transform duration-300 ease-in-out"
+  [ngClass]="{'translate-x-0': isFiltersVisible, '-translate-x-full': !isFiltersVisible}">
+  <div class="flex items-center justify-between pb-2 p-2">
+    <h2>Filters</h2>
+    <button (click)="toggleFilters()" class=" hover:text-gray-600">
+      <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+        viewBox="0 0 24 24">
+        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M6 18 17.94 6M18 18 6.06 6" />
+      </svg>
+    </button>
   </div>
+  <div class="space-y-2 overflow-y-auto h-[calc(100vh-4rem)]">
+    <app-filter *ngIf="genres.length > 0" filterName="Genres" [filterOptions]="genres" [selectedIds]="selectedIdGenres"
+      (selectionChange)="onSelectionChange($event, 'selectedIdGenres')"></app-filter>
+    <app-filter *ngIf="authors.length > 0" filterName="Authors" [filterOptions]="authors"
+      [selectedIds]="selectedIdAuthors" (selectionChange)="onSelectionChange($event, 'selectedIdAuthors')"></app-filter>
+    <app-filter *ngIf="publishers.length > 0" filterName="Publishers" [filterOptions]="publishers"
+      [selectedIds]="selectedIdPublishers"
+      (selectionChange)="onSelectionChange($event, 'selectedIdPublishers')"></app-filter>
+    <app-filter *ngIf="languages.length > 0" filterName="Languages" [filterOptions]="languages"
+      [selectedIds]="selectedIdLanguages"
+      (selectionChange)="onSelectionChange($event, 'selectedIdLanguages')"></app-filter>
+    <div class="flex">
+      <button (click)="resetFilters()"
+        class="btn btn-primary w-full rounded-sm bg-gray-100 hover:bg-gray-200 flex items-center justify-center space-x-2">
+        Reset Filters
+        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+          viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M6 18 17.94 6M18 18 6.06 6" />
+        </svg>
+      </button>
+    </div>
 
-  <mat-menu #sortMenu="matMenu">
-    <mat-selection-list multiple="false" (selectionChange)="onSortChange($event)">
-      @for (sort of sortOptions; track $index) {
-      <mat-list-option [value]="sort.value" [selected]="shopParams.sort === sort.value">
-        {{sort.name}}
-      </mat-list-option>
-      }
-    </mat-selection-list>
-  </mat-menu>
+    <div class="flex">
+      <button (click)="applyFilters()"
+        class="btn btn-primary w-full rounded-sm bg-gray-100 hover:bg-gray-200 flex items-center justify-center space-x-2">
+        Apply Filters
+        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+          viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M5 11.917 9.724 16.5 19 7.5" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
 }

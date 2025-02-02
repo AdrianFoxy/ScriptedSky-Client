@@ -1,68 +1,73 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, HostListener, inject, OnInit } from '@angular/core';
 import { ShopService } from '../../core/services/shop.service';
 import { Book } from '../../shared/models/book';
 import { BookItemComponent } from "./book-item/book-item.component";
 import { MatDialog } from '@angular/material/dialog';
-import { FilteringDialogComponent } from './filtering-dialog/filtering-dialog.component';
-import { MatButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
-import { MatMenu, MatMenuTrigger } from '@angular/material/menu';
-import { MatListOption, MatSelectionList, MatSelectionListChange } from '@angular/material/list';
 import { ShopParams } from '../../shared/models/shopParams';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Pagination } from '../../shared/models/pagination';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FilterComponent } from './filter/filter.component'; 
+import { Genre } from '../../shared/models/genre';
+import { Author } from '../../shared/models/author';
+import { Publisher } from '../../shared/models/publisher';
+import { Language } from '../../shared/models/language';
 
 @Component({
   selector: 'app-shop',
   standalone: true,
   imports: [
     BookItemComponent,
-    MatButton,
-    MatIcon,
-    MatMenu,
-    MatSelectionList,
-    MatListOption,
-    MatMenuTrigger,
     MatPaginator,
-    FormsModule
-],
+    FormsModule,
+    CommonModule,
+    FilterComponent
+  ],
   templateUrl: './shop.component.html',
-  styleUrl: './shop.component.scss'
+  styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
-
-  private shopService = inject(ShopService)
-  private dialogService = inject(MatDialog)
+  private shopService = inject(ShopService);
+  private dialogService = inject(MatDialog);
   books?: Pagination<Book>;
+
+  genres: Genre[] = [];
+  authors: Author[] = [];
+  publishers: Publisher[] = [];
+  languages: Language[] = [];
+
+  selectedIdGenres: string[] = [];
+  selectedIdAuthors: string[] = [];
+  selectedIdPublishers: string[] = [];
+  selectedIdLanguages: string[] = [];
 
   sortOptions = [
     { name: 'Alphabetical', value: 'name' },
     { name: 'Price: Low-High', value: 'priceAsc' },
     { name: 'Price: High-Low', value: 'priceDesc' }
-  ]
+  ];
 
   shopParams = new ShopParams();
-  pageSizeOptions = [5,10,15,20]
+  pageSizeOptions = [8, 12, 20];
 
   ngOnInit(): void {
     this.initializeShop();
   }
 
   initializeShop() {
-    this.shopService.getGenres();
-    this.shopService.getAuthors();
-    this.shopService.getPublishers();
-    this.shopService.getLanguages();
+    this.getGenreForFilter();
+    this.getAuthorForFilter();
+    this.getPublisherForFilter();
+    this.getLanguagesForFilter();
     this.getBooks();
   }
 
-  getBooks()
-  {
+  getBooks() {
     this.shopService.getBooks(this.shopParams).subscribe({
       next: response => this.books = response,
       error: error => console.log(error)
-    })
+    });
   }
 
   onSearchChange() {
@@ -76,39 +81,94 @@ export class ShopComponent implements OnInit {
     this.getBooks();
   }
 
-  onSortChange(event: MatSelectionListChange) {
-    const selectedOption = event.options[0];
-    if (selectedOption) {
-      this.shopParams.sort = selectedOption.value;
+  // Sorting
+  isOpen = false;
+
+  toggleDropdown() {
+    this.isOpen = !this.isOpen;
+  }
+
+  @HostListener('document:click', ['$event'])
+  closeDropdown(event: MouseEvent) {
+    const dropdown = document.getElementById('dropdown');
+    const button = document.getElementById('sortButton');
+    if (dropdown && button && !dropdown.contains(event.target as Node) && !button.contains(event.target as Node)) {
+      this.isOpen = false;
+    }
+  }
+
+  onSortChange(sortValue: string) {
+    if (sortValue) {
+      this.shopParams.sort = sortValue;
       this.shopParams.PageNumber = 1;
       this.getBooks();
     }
   }
 
-  openFiltresDialog() {
-    const dialogRef = this.dialogService.open(FilteringDialogComponent, {
-      width: '500px',
-      data: {
-        selectedGenres: this.shopParams.genres,
-        selectedAuthors: this.shopParams.authors,
-        selectedPublishers: this.shopParams.publishers,
-        selectedLanguages: this.shopParams.languages
-      }
-    });
+  // Filtering
 
-    dialogRef.afterClosed().subscribe({
-      next: result => {
-        if (result) {
-          console.log(result);
-          this.shopParams.genres = result.selectedGenres,
-          this.shopParams.authors = result.selectedAuthors,
-          this.shopParams.publishers = result.selectedPublishers,
-          this.shopParams.languages = result.selectedLanguages
-          this.shopParams.PageNumber = 1;
-          this.getBooks();
-        }
-      }
+  isFiltersVisible = false;
+
+  toggleFilters() {
+    this.isFiltersVisible = !this.isFiltersVisible;
+  }
+
+  applyFilters() {
+    this.shopParams.genres = this.selectedIdGenres,
+    this.shopParams.authors = this.selectedIdAuthors,
+    this.shopParams.publishers = this.selectedIdPublishers,
+    this.shopParams.languages = this.selectedIdLanguages
+    this.shopParams.PageNumber = 1;
+    // console.log('Shop Params:', this.shopParams);
+    this.getBooks();
+  }
+
+  resetFilters() {
+    this.selectedIdGenres = [];
+    this.selectedIdAuthors = [];
+    this.selectedIdPublishers = [];
+    this.selectedIdLanguages = [];
+  
+    this.shopParams.genres = [];
+    this.shopParams.authors = [];
+    this.shopParams.publishers = [];
+    this.shopParams.languages = [];
+    this.shopParams.PageNumber = 1;
+    // console.log('Filters reset');
+    // console.log('Shop Params after reset:', this.shopParams);
+    this.getBooks();
+  }
+  
+  onSelectionChange(selectedIds: string[], targetProperty: 'selectedIdGenres' | 'selectedIdAuthors' | 'selectedIdPublishers' | 'selectedIdLanguages') {
+    this[targetProperty] = selectedIds;
+  }
+  
+  getGenreForFilter() {
+    this.shopService.getGenres().subscribe({
+      next: response => this.genres = response,
+      error: error => console.log(error)
     });
   }
 
+  getAuthorForFilter() {
+    this.shopService.getAuthors().subscribe({
+      next: response => this.authors = response,
+      error: error => console.log(error)
+    });
+  }
+
+  getPublisherForFilter() {
+    this.shopService.getPublishers().subscribe({
+      next: response => this.publishers = response,
+      error: error => console.log(error)
+    });
+  }
+
+  getLanguagesForFilter() {
+    this.shopService.getLanguages().subscribe({
+      next: response => this.languages = response,
+      error: error => console.log(error)
+    });
+  }
+  
 }
