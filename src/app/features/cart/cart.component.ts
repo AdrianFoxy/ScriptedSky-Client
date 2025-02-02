@@ -3,11 +3,12 @@ import { CartService } from '../../core/services/cart.service';
 import { CommonModule } from '@angular/common';
 import { CartItemComponent } from "./cart-item/cart-item.component";
 import { OrderSummaryComponent } from "../../shared/components/order-summary/order-summary.component";
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [CommonModule, CartItemComponent, OrderSummaryComponent],
+  imports: [CommonModule, CartItemComponent, OrderSummaryComponent, RouterLink],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
 })
