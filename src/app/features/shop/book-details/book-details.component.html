@@ -12,6 +12,7 @@
 
       <!-- Stock Status -->
       <div *ngIf="book.amount > 0; then inStock; else outOfStock"></div>
+      <p class="mt-2">You have {{quantityInCart}} of this item in your cart</p>
 
       <!-- Book Title and Rating -->
       <div class="flex items-center">
@@ -33,12 +34,15 @@
       <!-- Add to Cart -->
       <div class="flex mt-3 mb-0.5">
         <mat-form-field appearance="outline" class="mr-2 w-20">
-          <input matInput type="number" min="1" value="1" />
+          <input matInput type="number" [(ngModel)]="quantity" min="0" />
         </mat-form-field>
-
-        <button class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 h-[56px]">
+      
+        <button [disabled]="quantity === quantityInCart" (click)="updateCart()"
+          class="bg-blue-500 text-white font-bold py-2 px-4 rounded hover:bg-blue-600 h-[56px]
+           disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed">
           Add to Cart
         </button>
+      
       </div>
 
       <!-- Book Details -->

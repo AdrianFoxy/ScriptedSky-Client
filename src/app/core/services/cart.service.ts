@@ -16,6 +16,17 @@ export class CartService {
     const items = this.cart()?.items || [];
     return items.length;
   });
+  totals = computed(() => {
+    const cart = this.cart();
+    if (!cart) return null;
+    const subtotal = cart.items.reduce((sum, item) => sum + item.price * item.quantity, 0).toFixed(2);
+    const shipping = 0;
+    return {
+      subtotal,
+      shipping,
+      total: subtotal + shipping
+    }
+  })
 
   getCart(id: string) {
     return this.http.get<Cart>(this.baseUrl + 'cart?id=' + id).pipe(
@@ -41,13 +52,42 @@ export class CartService {
     this.setCart(cart);
   }
 
+  removeItemFromCart(bookId: number, quantity = 1) {
+    const cart = this.cart();
+    if (!cart) return;
+  
+    const index = cart.items.findIndex(x => x.bookId === bookId);
+    if (index !== -1) { 
+      if (cart.items[index].quantity > quantity) {
+        cart.items[index].quantity -= quantity; 
+      } else {
+        cart.items.splice(index, 1);
+      }
+  
+      if (cart.items.length === 0) {
+        this.deleteCart();
+      } else {
+        this.setCart(cart);
+      }
+    }
+  }
+
+  deleteCart() {
+    this.http.delete(this.baseUrl + 'cart?id=' + this.cart()?.id).subscribe({
+      next: () => {
+        localStorage.removeItem('cart_id');
+        this.cart.set(null);
+      }
+    })
+  }
+
   private addOrUpdateItem(items: CartItem[], item: CartItem, quantity: number): CartItem[] {
-    const index = items.findIndex(x => x.BookId === item.BookId);
+    const index = items.findIndex(x => x.bookId === item.bookId);
     if (index === -1) {
-      item.Quantity = quantity;
+      item.quantity = quantity;
       items.push(item);
     } else {
-      items[index].Quantity += quantity
+      items[index].quantity += quantity
     }
 
     return items;
@@ -55,11 +95,11 @@ export class CartService {
 
   private mapBookToCartItem(item: Book): CartItem {
     return {
-      BookId: item.id,
-      BookName: item.title,
-      Price: item.price,
-      Quantity: 0,
-      PictureURL: item.pictureURL
+      bookId: item.id,
+      bookName: item.title,
+      price: item.price,
+      quantity: 0,
+      pictureURL: item.pictureURL
     }
   }
 
