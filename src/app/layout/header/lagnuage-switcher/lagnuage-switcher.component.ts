@@ -9,7 +9,7 @@ import { LanguageService } from '../../../core/services/language.service';
   styleUrl: './lagnuage-switcher.component.scss'
 })
 export class LagnuageSwitcherComponent {
-  selectedLanguage: string = '';  // Инициализируем переменную по умолчанию
+  selectedLanguage: string = '';
 
   constructor(private languageService: LanguageService) {}
 
