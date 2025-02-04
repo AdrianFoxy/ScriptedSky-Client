@@ -29,7 +29,8 @@
     </div>
 
     <div class="hidden md:flex  align-middle">
-
+      <app-lagnuage-switcher></app-lagnuage-switcher>  
+      
       <a class="custom-badge mt-2">
         <mat-icon>person_outline</mat-icon>
       </a>
@@ -43,7 +44,6 @@
 
     <!-- Mobile Menu Button -->
     <div class="mobile-menu md:hidden flex items-center">
-
       <a matBadge="{{cartService.itemCount() }}" matBadgeSize="large" class="custom-badge mt-2">
         <img src="shopping-cart.png" alt="Cart" class="w-7 h-7" />
       </a>
@@ -89,7 +89,9 @@
     <div class="menu flex flex-col items-center gap-2">
       <a routerLink="/" class="nav-item text-xl font-bold">Home</a>
       <a routerLink="/shop" class="nav-item text-xl font-bold">Books</a>
+      <app-lagnuage-switcher></app-lagnuage-switcher>
     </div>
+           
   </div>
 
 </header>

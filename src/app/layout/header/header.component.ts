@@ -6,6 +6,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { BusyService } from '../../core/services/busy.service';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { CartService } from '../../core/services/cart.service';
+import { LagnuageSwitcherComponent } from "./lagnuage-switcher/lagnuage-switcher.component";
 
 @Component({
   selector: 'app-header',
@@ -16,8 +17,9 @@ import { CartService } from '../../core/services/cart.service';
     CommonModule,
     RouterLink,
     RouterLinkActive,
-    MatProgressBar
-  ],
+    MatProgressBar,
+    LagnuageSwitcherComponent
+],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
