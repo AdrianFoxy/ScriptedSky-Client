@@ -1,0 +1,8 @@
+<div class="language-toggle" (click)="toggleLanguage()">
+    <div class="toggle-container">
+      <span class="language-option" [class.active]="selectedLanguage === 'EN'">EN</span>
+      <span class="language-option" [class.active]="selectedLanguage === 'UA'">UA</span>
+      <div class="slider" [class.right]="selectedLanguage === 'UA'"></div>
+    </div>
+  </div>
+  
