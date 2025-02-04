@@ -1,5 +1,5 @@
 @if(busyService.loading) {
-  <mat-progress-bar class="fixed top-0 z-50" mode="indeterminate"></mat-progress-bar>
+<mat-progress-bar class="fixed top-0 z-50" mode="indeterminate"></mat-progress-bar>
 }
 
 <header class="w-full">
@@ -9,19 +9,15 @@
     <div class="header-nav-inner-block">
       <div routerLink="/" class="flex items-center cursor: cursor-pointer" style="color: #1b3764;">
         <img src="logo.ico" alt="logo" class="h-10 w-auto mr-2">
-        <a  class="text-2xl">ScriptedSky</a>
+        <a class="text-2xl">ScriptedSky</a>
       </div>
 
       <nav class="hidden md:flex">
-        <a routerLink="/"
-           [routerLinkActiveOptions]="{exact: true}"
-           routerLinkActive="active" class="nav-item">
-           Home
+        <a routerLink="/" [routerLinkActiveOptions]="{exact: true}" routerLinkActive="active" class="nav-item">
+          Home
         </a>
-        <a routerLink="/shop"
-           routerLinkActive="active"
-           class="nav-item">
-           Books
+        <a routerLink="/shop" routerLinkActive="active" class="nav-item">
+          Books
         </a>
         <a class="nav-item">
           Blog
@@ -38,11 +34,8 @@
         <mat-icon>person_outline</mat-icon>
       </a>
       <div class="divider"></div>
-      <a routerLink="/cart"
-         routerLinkActive="active"
-         matBadge="{{cartService.itemCount() }}"
-         matBadgeSize="large"
-         class="custom-badge mt-2">
+      <a routerLink="/cart" routerLinkActive="active" matBadge="{{cartService.itemCount() }}" matBadgeSize="large"
+        class="custom-badge mt-2">
         <img src="shopping-cart.png" alt="Cart" class="w-7 h-7" />
       </a>
 
@@ -51,11 +44,7 @@
     <!-- Mobile Menu Button -->
     <div class="mobile-menu md:hidden flex items-center">
 
-      <a class="custom-badge mt-2">
-        <mat-icon>person_outline</mat-icon>
-      </a>
-      <div class="divider"></div>
-      <a matBadge="5" matBadgeSize="large" class="custom-badge mt-2">
+      <a matBadge="{{cartService.itemCount() }}" matBadgeSize="large" class="custom-badge mt-2">
         <img src="shopping-cart.png" alt="Cart" class="w-7 h-7" />
       </a>
 
@@ -65,9 +54,39 @@
     </div>
   </div>
 
-  <!-- Mobile Menu -->
-  <div [class.hidden]="!isOpen" class="md:hidden mx-auto px-6">
-    <div class="flex flex-col items-center space-y-4 px-2 pt-2 pb-3 sm:px-3">
+  <!-- Overlay -->
+  <div class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40" *ngIf="isOpen" (click)="toggleMenu()"></div>
+
+  <div
+    class="lg:hidden fixed inset-y-0 left-0 w-72 bg-white z-50 transform transition-transform duration-300 ease-in-out"
+    [ngClass]="{'translate-x-0': isOpen, '-translate-x-full': !isOpen}">
+
+    <div class="flex items-center  justify-between p-4" style="color: #1b3764;">
+      <div class="flex items-center">
+        <img src="logo.ico" alt="logo" class="h-10 w-auto mr-2">
+        <a class="text-2xl">ScriptedSky</a>
+      </div>
+
+      <button (click)="toggleMenu()" class="hover:text-gray-600">
+        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
+          viewBox="0 0 24 24">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M6 18 17.94 6M18 18 6.06 6" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="flex flex-col items-center mb-4">
+      <svg class="w-16 h-16" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="40" height="40"
+        fill="currentColor" viewBox="0 0 24 24">
+        <path fill-rule="evenodd"
+          d="M12 20a7.966 7.966 0 0 1-5.002-1.756l.002.001v-.683c0-1.794 1.492-3.25 3.333-3.25h3.334c1.84 0 3.333 1.456 3.333 3.25v.683A7.966 7.966 0 0 1 12 20ZM2 12C2 6.477 6.477 2 12 2s10 4.477 10 10c0 5.5-4.44 9.963-9.932 10h-.138C6.438 21.962 2 17.5 2 12Zm10-5c-1.84 0-3.333 1.455-3.333 3.25S10.159 13.5 12 13.5c1.84 0 3.333-1.455 3.333-3.25S13.841 7 12 7Z"
+          clip-rule="evenodd" />
+      </svg>
+      <p class="text-lg font-medium">Welcome, User!</p>
+    </div>
+
+    <div class="menu flex flex-col items-center gap-2">
       <a routerLink="/" class="nav-item text-xl font-bold">Home</a>
       <a routerLink="/shop" class="nav-item text-xl font-bold">Books</a>
     </div>
