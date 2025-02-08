@@ -1,0 +1,26 @@
+<div class="relative mb-4">
+  <label class="block text-gray-700">{{ label }}</label>
+  <input 
+      [formControl]="control"
+      type="{{ type }}" 
+      class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" 
+      placeholder="First Name"
+  >  
+
+  @if (control.touched || control.dirty) {
+      <div class="absolute text-xs text-red-600 mt-0.5">
+          @if (control.hasError('required')) {
+              {{ label }} is required
+          }    
+          @if (control.hasError('email')) {
+              Email is invalid
+          }  
+          @if (control.hasError('minlength')) {
+              {{ label }} must be at least {{ control.getError('minlength').requiredLength }} characters
+          }
+          @if (control.hasError('pattern')) {
+              {{ label }} is invalid, need atleast one numeric character
+          }
+      </div>
+  }
+</div>
