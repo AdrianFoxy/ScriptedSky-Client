@@ -14,12 +14,13 @@
             <p class="mb-1 text-lg font-bold">{{cartService.totals()?.total}}₴</p>
         </div>
     </div>
-    <button class="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">
-        Check out
-    </button>
-    <button
-        routerLink="/shop"
-        class="mt-2 w-full rounded-md  py-1.5 font-medium text-black hover:bg-gray-200">
-        Continue shopping
-    </button>
+    @if (location.path() !== '/checkout'){
+        <button routerLink="/checkout"
+            class="mt-6 w-full rounded-md bg-blue-500 py-1.5 font-medium text-blue-50 hover:bg-blue-600">
+            Checkout
+        </button>
+        <button routerLink="/shop" class="mt-2 w-full rounded-md  py-1.5 font-medium text-black hover:bg-gray-200">
+            Continue shopping
+        </button>
+    }
 </div>
